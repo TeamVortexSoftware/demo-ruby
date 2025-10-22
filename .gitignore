@@ -1,0 +1,46 @@
+# Ruby demo .gitignore
+
+# Bundler
+.bundle/
+vendor/bundle/
+vendor/cache/
+vendor/ruby/
+
+# Gems (keep Gemfile.lock for demo app reproducibility)
+# Gemfile.lock - intentionally committed for demo
+
+# Environment variables
+.env
+.env.local
+
+# Logs
+*.log
+
+# Temporary files
+tmp/
+.tmp/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Ruby version files
+.ruby-version
+.rbenv-version
+
+# RSpec
+.rspec_status
+coverage/
+
+# Backup files
+*~
+*.swp
+*.swo
+
+# Bundler binstubs
+bin/
