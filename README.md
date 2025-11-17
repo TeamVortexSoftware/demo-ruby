@@ -73,10 +73,41 @@ demo-ruby/
 
 Same users as other demos for consistency:
 
-| Email | Password | Role | Groups |
-|-------|----------|------|--------|
-| `admin@example.com` | `password123` | admin | Administrators, All Users |
-| `user@example.com` | `userpass` | user | Regular Users, All Users |
+| Email | Password | Auto-Join Admin |
+|-------|----------|-----------------|
+| `admin@example.com` | `password123` | Yes |
+| `user@example.com` | `userpass` | No |
+
+## JWT Format
+
+This demo uses Vortex's **new JWT format with user hash**:
+
+```ruby
+# Create a user hash with admin scopes
+user = {
+  id: 'user-123',
+  email: 'user@example.com',
+  admin_scopes: ['autoJoin']  # Optional: grants admin privileges
+}
+
+# Generate JWT
+jwt = vortex_client.generate_jwt(user: user)
+
+# Or with extra properties
+jwt = vortex_client.generate_jwt(
+  user: user,
+  role: 'admin',
+  department: 'Engineering'
+)
+```
+
+The JWT payload includes:
+- `userId`: User's unique ID
+- `userEmail`: User's email address
+- `userIsAutoJoinAdmin`: Set to `true` when `admin_scopes` contains `'autoJoin'`
+- Any additional properties passed as keyword arguments
+
+This replaces the legacy format with identifiers, groups, and role fields.
 
 ## Configuration
 

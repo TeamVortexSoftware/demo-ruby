@@ -143,8 +143,7 @@
         <p id="authMessage">Not authenticated</p>
         <div id="userInfo" style="display: none;">
             <strong>Logged in as:</strong> <span id="userEmail"></span>
-            <br><strong>Role:</strong> <span id="userRole"></span>
-            <br><strong>Groups:</strong> <span id="userGroups"></span>
+            <br><strong>Auto-Join Admin:</strong> <span id="userIsAutoJoinAdmin"></span>
         </div>
     </div>
 
@@ -169,8 +168,8 @@
 
         <div class="endpoint-list">
             <h4>Demo Users</h4>
-            <div class="endpoint"><strong>admin@example.com</strong> / password123 (admin role)</div>
-            <div class="endpoint"><strong>user@example.com</strong> / userpass (user role)</div>
+            <div class="endpoint"><strong>admin@example.com</strong> / password123 (auto-join admin)</div>
+            <div class="endpoint"><strong>user@example.com</strong> / userpass (regular user)</div>
         </div>
     </div>
 
@@ -304,8 +303,7 @@
                 authMessage.textContent = 'Authenticated ✓';
                 userInfo.style.display = 'block';
                 document.getElementById('userEmail').textContent = user.email;
-                document.getElementById('userRole').textContent = user.role;
-                document.getElementById('userGroups').textContent = user.groups.map(g => g.name).join(', ');
+                document.getElementById('userIsAutoJoinAdmin').textContent = user.is_auto_join_admin ? 'Yes' : 'No';
             } else {
                 authStatus.classList.remove('authenticated');
                 authMessage.textContent = 'Not authenticated';

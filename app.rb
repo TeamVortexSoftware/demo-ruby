@@ -42,15 +42,13 @@ class VortexRubyDemo < Sinatra::Base
       user = get_current_user(session)
       return nil unless user
 
+      admin_scopes = []
+      admin_scopes << 'autoJoin' if user.is_auto_join_admin
+
       {
-        user_id: user.id,
-        identifiers: [
-          { type: 'email', value: user.email }
-        ],
-        groups: user.groups.map { |g|
-          { id: g.id, type: g.type, name: g.name }
-        },
-        role: user.role
+        id: user.id,
+        email: user.email,
+        admin_scopes: admin_scopes
       }
     end
 
@@ -121,15 +119,13 @@ class VortexRubyDemo < Sinatra::Base
     # Create session
     session[:user_id] = user.id
     session[:user_email] = user.email
-    session[:user_role] = user.role
 
     json_response({
       success: true,
       user: {
         id: user.id,
         email: user.email,
-        role: user.role,
-        groups: user.groups.map(&:to_h)
+        is_auto_join_admin: user.is_auto_join_admin
       }
     })
   rescue JSON::ParserError
@@ -149,8 +145,7 @@ class VortexRubyDemo < Sinatra::Base
       json_response({
         id: user.id,
         email: user.email,
-        role: user.role,
-        groups: user.groups.map(&:to_h)
+        is_auto_join_admin: user.is_auto_join_admin
       })
     else
       halt 401, json_response({ error: 'Not authenticated' })
@@ -170,7 +165,7 @@ class VortexRubyDemo < Sinatra::Base
         halt 403, json_response({ error: 'Not authorized to generate JWT' })
       end
 
-      jwt = vortex_client.generate_jwt(**user_data)
+      jwt = vortex_client.generate_jwt(user: user_data)
       json_response({ jwt: jwt })
     end
   end
@@ -341,7 +336,8 @@ if __FILE__ == $0
   puts
   puts "Demo users:"
   get_demo_users.each do |user|
-    puts "  - #{user.email} / #{user.password} (#{user.role} role)"
+    admin_label = user.is_auto_join_admin ? "auto-join admin" : "regular user"
+    puts "  - #{user.email} / #{user.password} (#{admin_label})"
   end
 
   VortexRubyDemo.run!
