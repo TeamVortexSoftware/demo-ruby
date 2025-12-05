@@ -7,13 +7,13 @@
 
 # Demo user class (simplified)
 class DemoUser
-  attr_reader :id, :email, :password, :is_auto_join_admin
+  attr_reader :id, :email, :password, :is_autojoin_admin
 
-  def initialize(id, email, password, is_auto_join_admin)
+  def initialize(id, email, password, is_autojoin_admin)
     @id = id
     @email = email
     @password = password
-    @is_auto_join_admin = is_auto_join_admin
+    @is_autojoin_admin = is_autojoin_admin
   end
 end
 
@@ -24,7 +24,7 @@ def get_demo_users
       'admin-user-123',
       'admin@example.com',
       'password123',
-      true  # Auto-join admin
+      true  # Autojoin admin
     ),
     DemoUser.new(
       'user-user-456',
@@ -56,11 +56,11 @@ def get_current_user(session)
   }
 end
 
-# Verify if user is an auto-join admin
+# Verify if user is an autojoin admin
 #
 # @param user [DemoUser] User to check
-# @return [Boolean] True if user is auto-join admin
+# @return [Boolean] True if user is autojoin admin
 def user_is_admin?(user)
   return false unless user
-  user.is_auto_join_admin
+  user.is_autojoin_admin
 end

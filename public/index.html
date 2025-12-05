@@ -1,506 +1,594 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vortex Ruby SDK Demo</title>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            line-height: 1.6;
-        }
-        .header {
-            background: linear-gradient(135deg, #cc1f2e 0%, #8b1a1a 100%);
-            color: white;
-            padding: 30px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        .section {
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
-        }
-        input, select, textarea {
-            width: 100%;
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        button {
-            background: #cc1f2e;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-right: 10px;
-            margin-bottom: 10px;
-        }
-        button:hover {
-            background: #a01a24;
-        }
-        button:disabled {
-            background: #6c757d;
-            cursor: not-allowed;
-        }
-        button.secondary {
-            background: #6c757d;
-        }
-        button.secondary:hover {
-            background: #545b62;
-        }
-        .status {
-            margin-top: 10px;
-            padding: 10px;
-            border-radius: 4px;
-            font-weight: 500;
-        }
-        .status.success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        .status.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        .status.info {
-            background: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
-        }
-        pre {
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 4px;
-            padding: 15px;
-            white-space: pre-wrap;
-            overflow-x: auto;
-            max-height: 300px;
-        }
-        .auth-status {
-            background: #e2e3e5;
-            border: 1px solid #d3d3d4;
-            border-radius: 4px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-        .auth-status.authenticated {
-            background: #d4edda;
-            border-color: #c3e6cb;
-        }
-        .ruby-gem {
-            display: inline-block;
-            margin-right: 10px;
-            font-size: 1.2em;
-        }
-        .endpoint-list {
-            background: #f8f9fa;
-            border-left: 4px solid #cc1f2e;
-            padding: 15px;
-            margin: 15px 0;
-        }
-        .endpoint-list h4 {
-            margin-top: 0;
-            color: #cc1f2e;
-        }
-        .endpoint {
-            font-family: 'Courier New', monospace;
-            background: #fff;
-            padding: 5px 8px;
-            margin: 5px 0;
-            border-radius: 3px;
-            border: 1px solid #dee2e6;
-        }
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.6;
+      }
+      .header {
+        background: linear-gradient(135deg, #cc1f2e 0%, #8b1a1a 100%);
+        color: white;
+        padding: 30px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+      .section {
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 500;
+      }
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      button {
+        background: #cc1f2e;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-right: 10px;
+        margin-bottom: 10px;
+      }
+      button:hover {
+        background: #a01a24;
+      }
+      button:disabled {
+        background: #6c757d;
+        cursor: not-allowed;
+      }
+      button.secondary {
+        background: #6c757d;
+      }
+      button.secondary:hover {
+        background: #545b62;
+      }
+      .status {
+        margin-top: 10px;
+        padding: 10px;
+        border-radius: 4px;
+        font-weight: 500;
+      }
+      .status.success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+      .status.error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+      .status.info {
+        background: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+      }
+      pre {
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 4px;
+        padding: 15px;
+        white-space: pre-wrap;
+        overflow-x: auto;
+        max-height: 300px;
+      }
+      .auth-status {
+        background: #e2e3e5;
+        border: 1px solid #d3d3d4;
+        border-radius: 4px;
+        padding: 15px;
+        margin-bottom: 20px;
+      }
+      .auth-status.authenticated {
+        background: #d4edda;
+        border-color: #c3e6cb;
+      }
+      .ruby-gem {
+        display: inline-block;
+        margin-right: 10px;
+        font-size: 1.2em;
+      }
+      .endpoint-list {
+        background: #f8f9fa;
+        border-left: 4px solid #cc1f2e;
+        padding: 15px;
+        margin: 15px 0;
+      }
+      .endpoint-list h4 {
+        margin-top: 0;
+        color: #cc1f2e;
+      }
+      .endpoint {
+        font-family: "Courier New", monospace;
+        background: #fff;
+        padding: 5px 8px;
+        margin: 5px 0;
+        border-radius: 3px;
+        border: 1px solid #dee2e6;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="header">
-        <h1><span class="ruby-gem">💎</span>Vortex Ruby SDK Demo</h1>
-        <p>Interactive demo showcasing the Vortex Ruby SDK with Sinatra integration</p>
-        <p><strong>Same functionality as Python, Express, Java & Go demos</strong></p>
+      <h1><span class="ruby-gem">💎</span>Vortex Ruby SDK Demo</h1>
+      <p>
+        Interactive demo showcasing the Vortex Ruby SDK with Sinatra integration
+      </p>
+      <p>
+        <strong>Same functionality as Python, Express, Java & Go demos</strong>
+      </p>
     </div>
 
     <div class="auth-status" id="authStatus">
-        <h3>Authentication Status</h3>
-        <p id="authMessage">Not authenticated</p>
-        <div id="userInfo" style="display: none;">
-            <strong>Logged in as:</strong> <span id="userEmail"></span>
-            <br><strong>Auto-Join Admin:</strong> <span id="userIsAutoJoinAdmin"></span>
-        </div>
+      <h3>Authentication Status</h3>
+      <p id="authMessage">Not authenticated</p>
+      <div id="userInfo" style="display: none">
+        <strong>Logged in as:</strong> <span id="userEmail"></span>
+        <br /><strong>Autojoin Admin:</strong>
+        <span id="userIsAutojoinAdmin"></span>
+      </div>
     </div>
 
     <div class="section">
-        <h3>🔐 Authentication</h3>
-        <p>Login with demo credentials to test Vortex functionality:</p>
+      <h3>🔐 Authentication</h3>
+      <p>Login with demo credentials to test Vortex functionality:</p>
 
-        <div class="form-group">
-            <label for="loginEmail">Email:</label>
-            <input type="email" id="loginEmail" value="admin@example.com">
+      <div class="form-group">
+        <label for="loginEmail">Email:</label>
+        <input type="email" id="loginEmail" value="admin@example.com" />
+      </div>
+
+      <div class="form-group">
+        <label for="loginPassword">Password:</label>
+        <input type="password" id="loginPassword" value="password123" />
+      </div>
+
+      <button onclick="login()">Login</button>
+      <button class="secondary" onclick="logout()">Logout</button>
+
+      <div id="loginStatus" class="status" style="display: none"></div>
+
+      <div class="endpoint-list">
+        <h4>Demo Users</h4>
+        <div class="endpoint">
+          <strong>admin@example.com</strong> / password123 (autojoin admin)
         </div>
-
-        <div class="form-group">
-            <label for="loginPassword">Password:</label>
-            <input type="password" id="loginPassword" value="password123">
+        <div class="endpoint">
+          <strong>user@example.com</strong> / userpass (regular user)
         </div>
-
-        <button onclick="login()">Login</button>
-        <button class="secondary" onclick="logout()">Logout</button>
-
-        <div id="loginStatus" class="status" style="display: none;"></div>
-
-        <div class="endpoint-list">
-            <h4>Demo Users</h4>
-            <div class="endpoint"><strong>admin@example.com</strong> / password123 (auto-join admin)</div>
-            <div class="endpoint"><strong>user@example.com</strong> / userpass (regular user)</div>
-        </div>
+      </div>
     </div>
 
     <div class="section">
-        <h3>🎫 JWT Generation</h3>
-        <p>Generate a JWT token for the authenticated user:</p>
+      <h3>🎫 JWT Generation</h3>
+      <p>Generate a JWT token for the authenticated user:</p>
 
-        <button onclick="generateJWT()">Generate JWT</button>
+      <button onclick="generateJWT()">Generate JWT</button>
 
-        <div id="jwtStatus" class="status" style="display: none;"></div>
-        <pre id="jwtResult" style="display: none;"></pre>
+      <div id="jwtStatus" class="status" style="display: none"></div>
+      <pre id="jwtResult" style="display: none"></pre>
     </div>
 
     <div class="section">
-        <h3>📧 Get Invitations by Target</h3>
-        <p>Retrieve invitations for a specific target (email/sms):</p>
+      <h3>📧 Get Invitations by Target</h3>
+      <p>Retrieve invitations for a specific target (email/sms):</p>
 
-        <div class="form-group">
-            <label for="targetType">Target Type:</label>
-            <select id="targetType">
-                <option value="email">Email</option>
-                <option value="sms">SMS</option>
-            </select>
-        </div>
+      <div class="form-group">
+        <label for="targetType">Target Type:</label>
+        <select id="targetType">
+          <option value="email">Email</option>
+          <option value="sms">SMS</option>
+        </select>
+      </div>
 
-        <div class="form-group">
-            <label for="targetValue">Target Value:</label>
-            <input type="text" id="targetValue" value="user@example.com" placeholder="email@example.com or +1234567890">
-        </div>
+      <div class="form-group">
+        <label for="targetValue">Target Value:</label>
+        <input
+          type="text"
+          id="targetValue"
+          value="user@example.com"
+          placeholder="email@example.com or +1234567890"
+        />
+      </div>
 
-        <button onclick="getInvitationsByTarget()">Get Invitations by Target</button>
+      <button onclick="getInvitationsByTarget()">
+        Get Invitations by Target
+      </button>
 
-        <div id="targetStatus" class="status" style="display: none;"></div>
-        <pre id="targetResult" style="display: none;"></pre>
+      <div id="targetStatus" class="status" style="display: none"></div>
+      <pre id="targetResult" style="display: none"></pre>
     </div>
 
     <div class="section">
-        <h3>👥 Get Invitations by Group</h3>
-        <p>Retrieve invitations for a specific group:</p>
+      <h3>👥 Get Invitations by Group</h3>
+      <p>Retrieve invitations for a specific group:</p>
 
-        <div class="form-group">
-            <label for="groupType">Group Type:</label>
-            <input type="text" id="groupType" value="team" placeholder="team, department, etc.">
-        </div>
+      <div class="form-group">
+        <label for="groupType">Group Type:</label>
+        <input
+          type="text"
+          id="groupType"
+          value="team"
+          placeholder="team, department, etc."
+        />
+      </div>
 
-        <div class="form-group">
-            <label for="groupId">Group ID:</label>
-            <input type="text" id="groupId" value="engineering" placeholder="group-id">
-        </div>
+      <div class="form-group">
+        <label for="groupId">Group ID:</label>
+        <input
+          type="text"
+          id="groupId"
+          value="engineering"
+          placeholder="group-id"
+        />
+      </div>
 
-        <button onclick="getInvitationsByGroup()">Get Invitations by Group</button>
+      <button onclick="getInvitationsByGroup()">
+        Get Invitations by Group
+      </button>
 
-        <div id="groupStatus" class="status" style="display: none;"></div>
-        <pre id="groupResult" style="display: none;"></pre>
+      <div id="groupStatus" class="status" style="display: none"></div>
+      <pre id="groupResult" style="display: none"></pre>
     </div>
 
     <div class="section">
-        <h3>✅ Accept Invitations</h3>
-        <p>Accept one or more invitations:</p>
+      <h3>✅ Accept Invitations</h3>
+      <p>Accept one or more invitations:</p>
 
-        <div class="form-group">
-            <label for="invitationIds">Invitation IDs (comma-separated):</label>
-            <input type="text" id="invitationIds" placeholder="inv1,inv2,inv3">
-        </div>
+      <div class="form-group">
+        <label for="invitationIds">Invitation IDs (comma-separated):</label>
+        <input type="text" id="invitationIds" placeholder="inv1,inv2,inv3" />
+      </div>
 
-        <div class="form-group">
-            <label for="acceptTargetType">Target Type:</label>
-            <select id="acceptTargetType">
-                <option value="email">Email</option>
-                <option value="sms">SMS</option>
-            </select>
-        </div>
+      <div class="form-group">
+        <label for="acceptTargetType">Target Type:</label>
+        <select id="acceptTargetType">
+          <option value="email">Email</option>
+          <option value="sms">SMS</option>
+        </select>
+      </div>
 
-        <div class="form-group">
-            <label for="acceptTargetValue">Target Value:</label>
-            <input type="text" id="acceptTargetValue" value="user@example.com">
-        </div>
+      <div class="form-group">
+        <label for="acceptTargetValue">Target Value:</label>
+        <input type="text" id="acceptTargetValue" value="user@example.com" />
+      </div>
 
-        <button onclick="acceptInvitations()">Accept Invitations</button>
+      <button onclick="acceptInvitations()">Accept Invitations</button>
 
-        <div id="acceptStatus" class="status" style="display: none;"></div>
-        <pre id="acceptResult" style="display: none;"></pre>
+      <div id="acceptStatus" class="status" style="display: none"></div>
+      <pre id="acceptResult" style="display: none"></pre>
     </div>
 
     <div class="endpoint-list">
-        <h4>💎 Ruby SDK Endpoints (Same as other SDKs)</h4>
-        <div class="endpoint">POST /api/vortex/jwt</div>
-        <div class="endpoint">GET /api/vortex/invitations?targetType=email&targetValue=user@example.com</div>
-        <div class="endpoint">GET /api/vortex/invitations/:id</div>
-        <div class="endpoint">DELETE /api/vortex/invitations/:id</div>
-        <div class="endpoint">POST /api/vortex/invitations/accept</div>
-        <div class="endpoint">GET /api/vortex/invitations/by-group/:type/:id</div>
-        <div class="endpoint">DELETE /api/vortex/invitations/by-group/:type/:id</div>
-        <div class="endpoint">POST /api/vortex/invitations/:id/reinvite</div>
+      <h4>💎 Ruby SDK Endpoints (Same as other SDKs)</h4>
+      <div class="endpoint">POST /api/vortex/jwt</div>
+      <div class="endpoint">
+        GET
+        /api/vortex/invitations?targetType=email&targetValue=user@example.com
+      </div>
+      <div class="endpoint">GET /api/vortex/invitations/:id</div>
+      <div class="endpoint">DELETE /api/vortex/invitations/:id</div>
+      <div class="endpoint">POST /api/vortex/invitations/accept</div>
+      <div class="endpoint">GET /api/vortex/invitations/by-group/:type/:id</div>
+      <div class="endpoint">
+        DELETE /api/vortex/invitations/by-group/:type/:id
+      </div>
+      <div class="endpoint">POST /api/vortex/invitations/:id/reinvite</div>
     </div>
 
     <script>
-        let currentUser = null;
+      let currentUser = null;
 
-        // Check authentication status on load
-        window.onload = function() {
-            checkAuthStatus();
+      // Check authentication status on load
+      window.onload = function () {
+        checkAuthStatus();
+      };
+
+      function checkAuthStatus() {
+        fetch("/auth/user")
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error("Not authenticated");
+            }
+          })
+          .then((user) => {
+            currentUser = user;
+            updateAuthStatus(true, user);
+          })
+          .catch(() => {
+            currentUser = null;
+            updateAuthStatus(false);
+          });
+      }
+
+      function updateAuthStatus(authenticated, user = null) {
+        const authStatus = document.getElementById("authStatus");
+        const authMessage = document.getElementById("authMessage");
+        const userInfo = document.getElementById("userInfo");
+
+        if (authenticated && user) {
+          authStatus.classList.add("authenticated");
+          authMessage.textContent = "Authenticated ✓";
+          userInfo.style.display = "block";
+          document.getElementById("userEmail").textContent = user.email;
+          document.getElementById("userIsAutojoinAdmin").textContent =
+            user.is_autojoin_admin ? "Yes" : "No";
+        } else {
+          authStatus.classList.remove("authenticated");
+          authMessage.textContent = "Not authenticated";
+          userInfo.style.display = "none";
+        }
+      }
+
+      function login() {
+        const email = document.getElementById("loginEmail").value;
+        const password = document.getElementById("loginPassword").value;
+
+        if (!email || !password) {
+          showStatus("loginStatus", "Please enter email and password", "error");
+          return;
+        }
+
+        fetch("/auth/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success) {
+              currentUser = data.user;
+              updateAuthStatus(true, data.user);
+              showStatus(
+                "loginStatus",
+                `Logged in as ${data.user.email}`,
+                "success",
+              );
+            } else {
+              showStatus("loginStatus", data.error || "Login failed", "error");
+            }
+          })
+          .catch((error) => {
+            showStatus("loginStatus", `Login error: ${error.message}`, "error");
+          });
+      }
+
+      function logout() {
+        fetch("/auth/logout", {
+          method: "POST",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success) {
+              currentUser = null;
+              updateAuthStatus(false);
+              showStatus("loginStatus", "Logged out successfully", "success");
+            }
+          })
+          .catch((error) => {
+            showStatus(
+              "loginStatus",
+              `Logout error: ${error.message}`,
+              "error",
+            );
+          });
+      }
+
+      function generateJWT() {
+        if (!currentUser) {
+          showStatus("jwtStatus", "Please login first", "error");
+          return;
+        }
+
+        fetch("/api/vortex/jwt", {
+          method: "POST",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.jwt) {
+              showStatus("jwtStatus", "JWT generated successfully!", "success");
+              showResult("jwtResult", JSON.stringify(data, null, 2));
+            } else {
+              showStatus(
+                "jwtStatus",
+                data.error || "JWT generation failed",
+                "error",
+              );
+            }
+          })
+          .catch((error) => {
+            showStatus("jwtStatus", `JWT error: ${error.message}`, "error");
+          });
+      }
+
+      function getInvitationsByTarget() {
+        if (!currentUser) {
+          showStatus("targetStatus", "Please login first", "error");
+          return;
+        }
+
+        const targetType = document.getElementById("targetType").value;
+        const targetValue = document.getElementById("targetValue").value;
+
+        if (!targetValue) {
+          showStatus("targetStatus", "Please enter target value", "error");
+          return;
+        }
+
+        const url = `/api/vortex/invitations?targetType=${encodeURIComponent(targetType)}&targetValue=${encodeURIComponent(targetValue)}`;
+
+        fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.invitations || data.invitations === []) {
+              showStatus(
+                "targetStatus",
+                `Found ${data.invitations.length} invitation(s)`,
+                "success",
+              );
+              showResult("targetResult", JSON.stringify(data, null, 2));
+            } else {
+              showStatus(
+                "targetStatus",
+                data.error || "Request failed",
+                "error",
+              );
+            }
+          })
+          .catch((error) => {
+            showStatus(
+              "targetStatus",
+              `Request error: ${error.message}`,
+              "error",
+            );
+          });
+      }
+
+      function getInvitationsByGroup() {
+        if (!currentUser) {
+          showStatus("groupStatus", "Please login first", "error");
+          return;
+        }
+
+        const groupType = document.getElementById("groupType").value;
+        const groupId = document.getElementById("groupId").value;
+
+        if (!groupType || !groupId) {
+          showStatus("groupStatus", "Please enter group type and ID", "error");
+          return;
+        }
+
+        const url = `/api/vortex/invitations/by-group/${encodeURIComponent(groupType)}/${encodeURIComponent(groupId)}`;
+
+        fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.invitations || data.invitations === []) {
+              showStatus(
+                "groupStatus",
+                `Found ${data.invitations.length} group invitation(s)`,
+                "success",
+              );
+              showResult("groupResult", JSON.stringify(data, null, 2));
+            } else {
+              showStatus(
+                "groupStatus",
+                data.error || "Request failed",
+                "error",
+              );
+            }
+          })
+          .catch((error) => {
+            showStatus(
+              "groupStatus",
+              `Request error: ${error.message}`,
+              "error",
+            );
+          });
+      }
+
+      function acceptInvitations() {
+        if (!currentUser) {
+          showStatus("acceptStatus", "Please login first", "error");
+          return;
+        }
+
+        const invitationIdsInput =
+          document.getElementById("invitationIds").value;
+        const targetType = document.getElementById("acceptTargetType").value;
+        const targetValue = document.getElementById("acceptTargetValue").value;
+
+        if (!invitationIdsInput || !targetValue) {
+          showStatus(
+            "acceptStatus",
+            "Please enter invitation IDs and target value",
+            "error",
+          );
+          return;
+        }
+
+        const invitationIds = invitationIdsInput
+          .split(",")
+          .map((id) => id.trim());
+        const requestBody = {
+          invitationIds: invitationIds,
+          target: {
+            type: targetType,
+            value: targetValue,
+          },
         };
 
-        function checkAuthStatus() {
-            fetch('/auth/user')
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw new Error('Not authenticated');
-                    }
-                })
-                .then(user => {
-                    currentUser = user;
-                    updateAuthStatus(true, user);
-                })
-                .catch(() => {
-                    currentUser = null;
-                    updateAuthStatus(false);
-                });
-        }
-
-        function updateAuthStatus(authenticated, user = null) {
-            const authStatus = document.getElementById('authStatus');
-            const authMessage = document.getElementById('authMessage');
-            const userInfo = document.getElementById('userInfo');
-
-            if (authenticated && user) {
-                authStatus.classList.add('authenticated');
-                authMessage.textContent = 'Authenticated ✓';
-                userInfo.style.display = 'block';
-                document.getElementById('userEmail').textContent = user.email;
-                document.getElementById('userIsAutoJoinAdmin').textContent = user.is_auto_join_admin ? 'Yes' : 'No';
+        fetch("/api/vortex/invitations/accept", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.error) {
+              showStatus("acceptStatus", data.error, "error");
             } else {
-                authStatus.classList.remove('authenticated');
-                authMessage.textContent = 'Not authenticated';
-                userInfo.style.display = 'none';
+              showStatus(
+                "acceptStatus",
+                "Invitations accepted successfully!",
+                "success",
+              );
+              showResult("acceptResult", JSON.stringify(data, null, 2));
             }
-        }
+          })
+          .catch((error) => {
+            showStatus(
+              "acceptStatus",
+              `Accept error: ${error.message}`,
+              "error",
+            );
+          });
+      }
 
-        function login() {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
+      function showStatus(elementId, message, type) {
+        const element = document.getElementById(elementId);
+        element.textContent = message;
+        element.className = `status ${type}`;
+        element.style.display = "block";
+      }
 
-            if (!email || !password) {
-                showStatus('loginStatus', 'Please enter email and password', 'error');
-                return;
-            }
-
-            fetch('/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    currentUser = data.user;
-                    updateAuthStatus(true, data.user);
-                    showStatus('loginStatus', `Logged in as ${data.user.email}`, 'success');
-                } else {
-                    showStatus('loginStatus', data.error || 'Login failed', 'error');
-                }
-            })
-            .catch(error => {
-                showStatus('loginStatus', `Login error: ${error.message}`, 'error');
-            });
-        }
-
-        function logout() {
-            fetch('/auth/logout', {
-                method: 'POST'
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    currentUser = null;
-                    updateAuthStatus(false);
-                    showStatus('loginStatus', 'Logged out successfully', 'success');
-                }
-            })
-            .catch(error => {
-                showStatus('loginStatus', `Logout error: ${error.message}`, 'error');
-            });
-        }
-
-        function generateJWT() {
-            if (!currentUser) {
-                showStatus('jwtStatus', 'Please login first', 'error');
-                return;
-            }
-
-            fetch('/api/vortex/jwt', {
-                method: 'POST'
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.jwt) {
-                    showStatus('jwtStatus', 'JWT generated successfully!', 'success');
-                    showResult('jwtResult', JSON.stringify(data, null, 2));
-                } else {
-                    showStatus('jwtStatus', data.error || 'JWT generation failed', 'error');
-                }
-            })
-            .catch(error => {
-                showStatus('jwtStatus', `JWT error: ${error.message}`, 'error');
-            });
-        }
-
-        function getInvitationsByTarget() {
-            if (!currentUser) {
-                showStatus('targetStatus', 'Please login first', 'error');
-                return;
-            }
-
-            const targetType = document.getElementById('targetType').value;
-            const targetValue = document.getElementById('targetValue').value;
-
-            if (!targetValue) {
-                showStatus('targetStatus', 'Please enter target value', 'error');
-                return;
-            }
-
-            const url = `/api/vortex/invitations?targetType=${encodeURIComponent(targetType)}&targetValue=${encodeURIComponent(targetValue)}`;
-
-            fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                if (data.invitations || data.invitations === []) {
-                    showStatus('targetStatus', `Found ${data.invitations.length} invitation(s)`, 'success');
-                    showResult('targetResult', JSON.stringify(data, null, 2));
-                } else {
-                    showStatus('targetStatus', data.error || 'Request failed', 'error');
-                }
-            })
-            .catch(error => {
-                showStatus('targetStatus', `Request error: ${error.message}`, 'error');
-            });
-        }
-
-        function getInvitationsByGroup() {
-            if (!currentUser) {
-                showStatus('groupStatus', 'Please login first', 'error');
-                return;
-            }
-
-            const groupType = document.getElementById('groupType').value;
-            const groupId = document.getElementById('groupId').value;
-
-            if (!groupType || !groupId) {
-                showStatus('groupStatus', 'Please enter group type and ID', 'error');
-                return;
-            }
-
-            const url = `/api/vortex/invitations/by-group/${encodeURIComponent(groupType)}/${encodeURIComponent(groupId)}`;
-
-            fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                if (data.invitations || data.invitations === []) {
-                    showStatus('groupStatus', `Found ${data.invitations.length} group invitation(s)`, 'success');
-                    showResult('groupResult', JSON.stringify(data, null, 2));
-                } else {
-                    showStatus('groupStatus', data.error || 'Request failed', 'error');
-                }
-            })
-            .catch(error => {
-                showStatus('groupStatus', `Request error: ${error.message}`, 'error');
-            });
-        }
-
-        function acceptInvitations() {
-            if (!currentUser) {
-                showStatus('acceptStatus', 'Please login first', 'error');
-                return;
-            }
-
-            const invitationIdsInput = document.getElementById('invitationIds').value;
-            const targetType = document.getElementById('acceptTargetType').value;
-            const targetValue = document.getElementById('acceptTargetValue').value;
-
-            if (!invitationIdsInput || !targetValue) {
-                showStatus('acceptStatus', 'Please enter invitation IDs and target value', 'error');
-                return;
-            }
-
-            const invitationIds = invitationIdsInput.split(',').map(id => id.trim());
-            const requestBody = {
-                invitationIds: invitationIds,
-                target: {
-                    type: targetType,
-                    value: targetValue
-                }
-            };
-
-            fetch('/api/vortex/invitations/accept', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(requestBody)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    showStatus('acceptStatus', data.error, 'error');
-                } else {
-                    showStatus('acceptStatus', 'Invitations accepted successfully!', 'success');
-                    showResult('acceptResult', JSON.stringify(data, null, 2));
-                }
-            })
-            .catch(error => {
-                showStatus('acceptStatus', `Accept error: ${error.message}`, 'error');
-            });
-        }
-
-        function showStatus(elementId, message, type) {
-            const element = document.getElementById(elementId);
-            element.textContent = message;
-            element.className = `status ${type}`;
-            element.style.display = 'block';
-        }
-
-        function showResult(elementId, content) {
-            const element = document.getElementById(elementId);
-            element.textContent = content;
-            element.style.display = 'block';
-        }
+      function showResult(elementId, content) {
+        const element = document.getElementById(elementId);
+        element.textContent = content;
+        element.style.display = "block";
+      }
     </script>
-</body>
+  </body>
 </html>

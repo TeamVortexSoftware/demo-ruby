@@ -43,7 +43,7 @@ class VortexRubyDemo < Sinatra::Base
       return nil unless user
 
       admin_scopes = []
-      admin_scopes << 'autoJoin' if user.is_auto_join_admin
+      admin_scopes << 'autojoin' if user.is_autojoin_admin
 
       {
         id: user.id,
@@ -125,7 +125,7 @@ class VortexRubyDemo < Sinatra::Base
       user: {
         id: user.id,
         email: user.email,
-        is_auto_join_admin: user.is_auto_join_admin
+        is_autojoin_admin: user.is_autojoin_admin
       }
     })
   rescue JSON::ParserError
@@ -145,7 +145,7 @@ class VortexRubyDemo < Sinatra::Base
       json_response({
         id: user.id,
         email: user.email,
-        is_auto_join_admin: user.is_auto_join_admin
+        is_autojoin_admin: user.is_autojoin_admin
       })
     else
       halt 401, json_response({ error: 'Not authenticated' })
@@ -336,7 +336,7 @@ if __FILE__ == $0
   puts
   puts "Demo users:"
   get_demo_users.each do |user|
-    admin_label = user.is_auto_join_admin ? "auto-join admin" : "regular user"
+    admin_label = user.is_autojoin_admin ? "autojoin admin" : "regular user"
     puts "  - #{user.email} / #{user.password} (#{admin_label})"
   end
 

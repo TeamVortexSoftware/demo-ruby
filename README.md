@@ -19,11 +19,13 @@ A complete demo application showcasing the Vortex Ruby SDK with Sinatra, providi
 ## Quick Start
 
 1. **Start the server**:
+
    ```bash
    ./run.sh
    ```
 
 2. **Open your browser**:
+
    ```
    http://localhost:4567
    ```
@@ -37,11 +39,13 @@ A complete demo application showcasing the Vortex Ruby SDK with Sinatra, providi
 The Ruby demo provides identical API endpoints to other SDKs:
 
 ### Authentication
+
 - `POST /auth/login` - Login with email/password
 - `POST /auth/logout` - Logout current user
 - `GET /auth/user` - Get current user info
 
 ### Vortex API (Same as other SDKs)
+
 - `POST /api/vortex/jwt` - Generate JWT token
 - `GET /api/vortex/invitations?targetType=email&targetValue=user@example.com` - Get invitations by target
 - `GET /api/vortex/invitations/:id` - Get specific invitation
@@ -52,6 +56,7 @@ The Ruby demo provides identical API endpoints to other SDKs:
 - `POST /api/vortex/invitations/:id/reinvite` - Reinvite user
 
 ### Utility
+
 - `GET /health` - Health check endpoint
 - `GET /` - Web interface
 
@@ -73,10 +78,10 @@ demo-ruby/
 
 Same users as other demos for consistency:
 
-| Email | Password | Auto-Join Admin |
-|-------|----------|-----------------|
-| `admin@example.com` | `password123` | Yes |
-| `user@example.com` | `userpass` | No |
+| Email               | Password      | Autojoin Admin |
+| ------------------- | ------------- | --------------- |
+| `admin@example.com` | `password123` | Yes             |
+| `user@example.com`  | `userpass`    | No              |
 
 ## JWT Format
 
@@ -87,7 +92,7 @@ This demo uses Vortex's **new JWT format with user hash**:
 user = {
   id: 'user-123',
   email: 'user@example.com',
-  admin_scopes: ['autoJoin']  # Optional: grants admin privileges
+  admin_scopes: ['autojoin']  # Optional: grants admin privileges
 }
 
 # Generate JWT
@@ -102,9 +107,10 @@ jwt = vortex_client.generate_jwt(
 ```
 
 The JWT payload includes:
+
 - `userId`: User's unique ID
 - `userEmail`: User's email address
-- `userIsAutoJoinAdmin`: Set to `true` when `admin_scopes` contains `'autoJoin'`
+- `userIsAutojoinAdmin`: Set to `true` when `admin_scopes` contains `'autojoin'`
 - Any additional properties passed as keyword arguments
 
 This replaces the legacy format with identifiers, groups, and role fields.
@@ -154,37 +160,42 @@ gem 'vortex-ruby-sdk'
 ## Testing the Demo
 
 ### 1. Authentication Flow
+
 1. Open http://localhost:4567
 2. Login with demo credentials
 3. Verify user info displays correctly
 
 ### 2. JWT Generation
+
 1. Click "Generate JWT"
 2. Verify JWT token is returned
 3. Check that JWT contains user data
 
 ### 3. Invitation Management
+
 1. Test "Get Invitations by Target" with different email addresses
 2. Test "Get Invitations by Group" with different group types
 3. Test "Accept Invitations" with sample invitation IDs
 
 ### 4. API Compatibility
+
 The Ruby demo provides identical functionality to other SDK demos, ensuring React provider compatibility and consistent behavior across all platforms.
 
 ## Comparison with Other Demos
 
-| Feature | Ruby | Python | Express | Java | Go |
-|---------|------|--------|---------|------|-----|
-| Framework | Sinatra | FastAPI | Express | Spring Boot | Gin |
-| Port | 4567 | 8000 | 3000 | 8080 | 8080 |
-| Authentication | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Same Routes | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Web Interface | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Same Users | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Feature        | Ruby    | Python  | Express | Java        | Go   |
+| -------------- | ------- | ------- | ------- | ----------- | ---- |
+| Framework      | Sinatra | FastAPI | Express | Spring Boot | Gin  |
+| Port           | 4567    | 8000    | 3000    | 8080        | 8080 |
+| Authentication | ✅      | ✅      | ✅      | ✅          | ✅   |
+| Same Routes    | ✅      | ✅      | ✅      | ✅          | ✅   |
+| Web Interface  | ✅      | ✅      | ✅      | ✅          | ✅   |
+| Same Users     | ✅      | ✅      | ✅      | ✅          | ✅   |
 
 ## Troubleshooting
 
 ### Ruby Version Issues
+
 ```bash
 # Check Ruby version
 ruby -v
@@ -194,6 +205,7 @@ ruby -e "puts RUBY_VERSION"
 ```
 
 ### Dependency Issues
+
 ```bash
 # Update bundler
 gem update bundler
@@ -203,6 +215,7 @@ bundle install --clean --force
 ```
 
 ### Port Conflicts
+
 If port 4567 is in use, modify the port in `app.rb`:
 
 ```ruby
